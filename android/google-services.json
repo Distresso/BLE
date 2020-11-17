@@ -1,0 +1,71 @@
+{
+  "project_info": {
+    "project_number": "925103165264",
+    "firebase_url": "https://project381-t5.firebaseio.com",
+    "project_id": "project381-t5",
+    "storage_bucket": "project381-t5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925103165264:android:b399df5a0a5743ea682655",
+        "android_client_info": {
+          "package_name": "com.distresso.distressoble"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925103165264-heftuqaib5bsaq5cvm70770a1hq4r709.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.distresso.distressoble",
+            "certificate_hash": "be0bbba15a0485f25a189879a7c439a364a45956"
+          }
+        },
+        {
+          "client_id": "925103165264-kts963at4n6s5tmr7l7npkb7q7ab8b15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.distresso.distressoble",
+            "certificate_hash": "1e2b7a62b1b4a2bb52cbf2a1f170fb4bd4241825"
+          }
+        },
+        {
+          "client_id": "925103165264-hvaui49e1dd80llkkgulq1752nq2tefb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.distresso.distressoble",
+            "certificate_hash": "3dbff810e71a5780ed153c97b29eab72fa7672f8"
+          }
+        },
+        {
+          "client_id": "925103165264-om5bo16tl56uvjtivpfpe9atfgcis92r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUHDqgK81i8sifWczWOmTk0OvWGxIlNRQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925103165264-om5bo16tl56uvjtivpfpe9atfgcis92r.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "925103165264-j5bp0vqh4l73bk7vscck5f047ecc81i0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.distresso.distressoble"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,51 @@
+name: distressoble
+description: A new Flutter application.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  flutter_bloc: ^6.0.5
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.0+1
+  firebase_messaging: ^7.0.0
+  firebase_analytics: ^6.0.0
+  firebase_storage: ^5.0.1
+  image_picker: ^0.6.7+11
+  flutter_image_compress: ^0.7.0
+  equatable: ^1.2.5
+  provider: ^4.3.2+2
+  extended_image: ^1.1.2
+  flutter_screenutil: ^3.1.1
+  permission_handler: ^5.0.1+1
+  geolocator: ^6.0.0+4
+  geocoding: ^1.0.4+1
+  flutter_svg: ^0.19.0
+  flutter_local_notifications: ^3.0.1+4
+  flare_flutter: ^2.0.6
+  audioplayers: ^0.16.1
+  cupertino_icons: ^1.0.0
+  sp_user_repository:
+    path: ../../spaza-packages/user-repository
+  sp_utilities:
+    path: ../../spaza-packages/sp-utilities
+
+
+dev_dependencies:
+  build_runner: ^1.10.3
+  json_serializable: ^3.5.0
+
+
+flutter_test:
+  sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/

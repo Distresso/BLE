@@ -1,0 +1,138 @@
+//          List<ButtonTheme> _buildReadWriteButton(
+//              BluetoothCharacteristic characteristic) {
+//            List<ButtonTheme> buttons = new List<ButtonTheme>();
+//
+//            //reads from the device
+//            if (characteristic.properties.read) {
+//              buttons.add(
+//                ButtonTheme(
+//                  minWidth: 10,
+//                  height: 20,
+//                  child: Padding(
+//                    padding: const EdgeInsets.symmetric(horizontal: 4),
+//                    child: RaisedButton(
+//                      color: Colors.blue,
+//                      child:
+//                          Text('READ', style: TextStyle(color: Colors.white)),
+//                      onPressed: () async {
+//                        var sub = characteristic.value.listen((value) {
+//                          setState(() {
+//                            //gets the value from the specified characteristic uuid
+//                            widget.readValues[characteristic.uuid] = value;
+//                          });
+//                        });
+//                        await characteristic.read();
+//                        sub.cancel();
+//                      },
+//                    ),
+//                  ),
+//                ),
+//              );
+//            }
+//            //writes to the bluetooth device
+//            if (characteristic.properties.write) {
+//              buttons.add(
+//                ButtonTheme(
+//                  minWidth: 10,
+//                  height: 20,
+//                  child: Padding(
+//                    padding: const EdgeInsets.symmetric(horizontal: 4),
+//                    child: RaisedButton(
+//                      child:
+//                          Text('WRITE', style: TextStyle(color: Colors.white)),
+//                      onPressed: () async {
+//                        await showDialog(
+//                            context: context,
+//                            builder: (BuildContext context) {
+//                              return AlertDialog(
+//                                title: Text("Write"),
+//                                content: Row(
+//                                  children: <Widget>[
+//                                    Expanded(
+//                                      child: TextField(
+//                                        //shows a textbox that allows you to enter a message you want to send to device
+//                                        //TODO: This is just for testing purposes, should be removed as development proceeds
+//                                        controller: _writeController,
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+//                                actions: <Widget>[
+//                                  FlatButton(
+//                                    child: Text("Send"),
+//                                    onPressed: () {
+//                                      characteristic.write(
+//                                          //Entered string has to be converted to utf-8 since that is the format that is used for bluetooth communication
+//                                          //Arduino device will automatically convert the utf-8 code to string
+//                                          utf8.encode(
+//                                              _writeController.value.text));
+//                                      Navigator.pop(context);
+//                                    },
+//                                  ),
+//                                  //cancel to not exit out of sending prompt
+//                                  FlatButton(
+//                                    child: Text("Cancel"),
+//                                    onPressed: () {
+//                                      Navigator.pop(context);
+//                                    },
+//                                  ),
+//                                ],
+//                              );
+//                            });
+//                      },
+//                    ),
+//                  ),
+//                ),
+//              );
+//            }
+//            return buttons;
+//          }
+
+else {
+            List<Container> containers = new List<Container>();
+            List<Widget> characteristicsWidget = new List<Widget>();
+
+            String readValue = "";
+
+            //widget.readValues[_blunoCharacteristic.uuid] (incase still needed)
+            //TODO: Make await and async so that notification system works
+
+            void getNotification() async {
+              await _blunoCharacteristic.setNotifyValue(true);
+              _blunoCharacteristic.value.listen((value) {
+                readValue = ascii.decode(value);
+              });
+            }
+
+            getNotification();
+
+            characteristicsWidget.add(
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        ..._buildReadWriteButton(_blunoCharacteristic),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        //shows value that was read from the bluetooth device
+                        //TODO: When uuid is forced the value must be decoded to show a string value instead of a utf-8 value
+                        Text('Value: ' + readValue),
+                      ],
+                    ),
+                    Divider(),
+                  ],
+                ),
+              ),
+            );
+
+            return ListView(
+              padding: const EdgeInsets.all(8),
+              children: <Widget>[
+                ...characteristicsWidget,
+              ],
+            );
+          }

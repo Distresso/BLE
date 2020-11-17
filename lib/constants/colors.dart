@@ -1,0 +1,10 @@
+import 'package:flutter/material.dart';
+const Color backgroundColor = Color(0xFF323231);
+const Color primaryButtonColor = Color(0xFFFFBD5A);
+const Color secondaryButtonColor = Color(0xFF922C63);
+const Color cardColor = Color(0xFF1D1D1C);
+const Color hrColour = Color(0xFFC60404);
+const Color userColour = Color(0xFFE7E7E7);
+const Color bluetoothColour = Color(0xFF00A3FF);
+const Color groupColour = Color(0xFF5ED600);
+const Color moreColour = Color(0xFFFAFF03);
