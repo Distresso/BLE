@@ -8,25 +8,25 @@ part 'bluetooth_state.dart';
 class BluetoothCubit extends Cubit<BluetoothAppState> {
   BluetoothCubit() : super(BluetoothInitial());
 
-  void connectToDevice(BluetoothDevice bluetoothDevice) async {
-    if (bluetoothDevice != null) {
-      if (!state.mainBluetoothAppState.isConnected) {
-        await BluetoothConnection.toAddress(bluetoothDevice.address).then((_connection) {
-          emit(BluetoothConnected(state.mainBluetoothAppState.copyWith(bluetoothConnection: _connection)));
-          state.mainBluetoothAppState.bluetoothConnection.input.listen((data) {
-            emit(BluetoothReceiveMessage(state.mainBluetoothAppState.copyWith(message: data.toString()))); //TODO properly convert to string
-            print(data);
-          }).onDone(() {
-            emit(BluetoothInitial());
-          });
-        }).catchError((error) {
-          emit(BluetoothError(state.mainBluetoothAppState));
+  connectToDevice(BluetoothDevice bluetoothDevice) async {
+    if (bluetoothDevice != null && !state.mainBluetoothAppState.isConnected) {
+      emit(BluetoothConnecting(state.mainBluetoothAppState));
+      await BluetoothConnection.toAddress(bluetoothDevice.address).then((_connection) {
+        emit(BluetoothConnected(state.mainBluetoothAppState.copyWith(bluetoothConnection: _connection)));
+
+        state.mainBluetoothAppState.bluetoothConnection.input.listen((data) {
+          emit(BluetoothReceiveMessage(state.mainBluetoothAppState.copyWith(message: data.toString()))); //TODO properly convert to string
+          print(data);
+        }).onDone(() {
+          emit(BluetoothInitial());
         });
-      }
+      }).catchError((error) {
+        emit(BluetoothError(state.mainBluetoothAppState));
+      });
     }
   }
 
-  Future<List<BluetoothDevice>> getPairedDevices(BluetoothDevice bl) async {
+  Future<List<BluetoothDevice>> getPairedDevices() async {
     FlutterBluetoothSerial _bluetooth = FlutterBluetoothSerial.instance;
     try {
       return _bluetooth.getBondedDevices();
@@ -36,9 +36,9 @@ class BluetoothCubit extends Cubit<BluetoothAppState> {
     }
   }
 
-  void disconnect() async {
-    await state.mainBluetoothAppState.bluetoothConnection.close();
+  disconnect() async {
     if (!state.mainBluetoothAppState.isConnected) {
+      await state.mainBluetoothAppState.bluetoothConnection.close();
       emit(BluetoothInitial());
     }
   }
