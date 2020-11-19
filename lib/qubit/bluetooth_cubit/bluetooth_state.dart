@@ -2,23 +2,31 @@ part of 'bluetooth_cubit.dart';
 
 class MainBluetoothAppState extends Equatable {
   final String message;
+  final BluetoothConnection bluetoothConnection;
+  final BluetoothDevice bluetoothDevice;
 
-  MainBluetoothAppState({this.message});
+  MainBluetoothAppState({this.bluetoothConnection, this.message, this.bluetoothDevice});
 
   @override
   List<Object> get props => [message];
 
   MainBluetoothAppState copyWith({
     String message,
+    BluetoothConnection bluetoothConnection,
+    BluetoothDevice bluetoothDevice,
   }) {
-    if ((message == null || identical(message, this.message))) {
+    if ((message == null || identical(message, this.message)) && (bluetoothConnection == null || identical(bluetoothConnection, this.bluetoothConnection)) && (bluetoothDevice == null || identical(bluetoothDevice, this.bluetoothDevice))) {
       return this;
     }
 
     return new MainBluetoothAppState(
       message: message ?? this.message,
+      bluetoothConnection: bluetoothConnection ?? this.bluetoothConnection,
+      bluetoothDevice: bluetoothDevice ?? this.bluetoothDevice,
     );
   }
+
+  bool get isConnected => bluetoothConnection != null && bluetoothConnection.isConnected;
 }
 
 @immutable
