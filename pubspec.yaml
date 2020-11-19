@@ -29,11 +29,13 @@ dependencies:
   flutter_svg: ^0.19.1
   flutter_local_notifications: ^3.0.1+4
   flare_flutter: ^2.0.6
+  flutter_bluetooth_serial: ^0.2.2
   cupertino_icons: ^1.0.0
+
   distresso_user_package:
-    path: ../../distresso_packages/distresso_user_package
+    path: ../distresso_packages/distresso_user_package
   distresso_utilities_package:
-    path: ../../distresso_packages/distresso_utilities_package
+    path: ../distresso_packages/distresso_utilities_package
 
 
 dev_dependencies:
