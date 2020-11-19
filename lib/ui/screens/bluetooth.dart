@@ -1,12 +1,8 @@
 // import 'dart:convert';
-//
-// import 'package:distressoble/qubit/bluetooth_cubit.dart';
-// import 'package:distressoble/ui/widgets/loading_indicator.dart';
+// import 'package:distressoble/qubit/bluetooth_cubit/bluetooth_cubit.dart';
+//import 'package:distressoble/ui/widgets/loading_indicator.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_blue/flutter_blue.dart';
-//
-// import '../../qubit/bluetooth_cubit.dart';
 //
 // class BluetoothScreen extends StatefulWidget {
 //   @override
@@ -14,12 +10,6 @@
 // }
 //
 // class _BluetoothScreenState extends State<BluetoothScreen> {
-//   @override
-//   void initState() {
-//     super.initState();
-//     BlocProvider.of<BluetoothCubit>(context).getAvailableDevices();
-//   }
-//
 //   Widget build(BuildContext context) => Scaffold(
 //       appBar: AppBar(
 //         title: Text('Bluetooth'),
