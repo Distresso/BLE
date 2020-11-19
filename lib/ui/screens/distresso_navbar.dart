@@ -22,17 +22,15 @@ class _NavbarState extends State<Navbar> {
   int selectedIndex = 0;
   List items = [
     MenuItem(x: -1.0, name: 'DistressoNavbarHR', color: hrColour),
-    MenuItem(x: -0.5, name: 'DistressoNavbarUser', color: userColour),
-    MenuItem(x: 0, name: 'DistressoNavbarUsers', color: groupColour),
-    MenuItem(x: 0.5, name: 'DistressoNavbarBluetooth', color: bluetoothColour),
-    MenuItem(x: 1, name: 'DistressoProjectLoading', color: moreColour),
+    MenuItem(x: -0.3, name: 'DistressoNavbarUser', color: userColour),
+    MenuItem(x: 0.3, name: 'DistressoNavbarUsers', color: groupColour),
+    MenuItem(x: 1.0, name: 'DistressoNavbarBluetooth', color: bluetoothColour),
   ];
   List screens =[
-    HomeScreen(),
+    HomeScreen(), //user stats
     ProfileScreen(),
     MapScreen(),
-    HomeScreen(),
-    SplashScreen(),
+    HomeScreen(), // Bluetooth Screen
   ];
 
   Widget _flare(MenuItem item) {
@@ -82,7 +80,7 @@ class _NavbarState extends State<Navbar> {
                   child: AnimatedContainer(
                     duration: Duration(microseconds: 1000),
                     height: 6,
-                    width: w * 0.2,
+                    width: w * 0.25,
                     color: active.color,
                   ),
                 ),

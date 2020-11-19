@@ -1,5 +1,6 @@
 import 'package:distressoble/constants/colors.dart';
 import 'package:distressoble/ui/screens/register/login_with_account_button.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_user_repository/sp_user_repository.dart';
 import 'package:formz/formz.dart';
@@ -88,15 +89,23 @@ class _RegisterFormState extends State<RegisterForm> {
                   Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.12,
+                        height: MediaQuery.of(context).size.height * 0.08,
                       ),
                       Center(
-                          child: Image.asset(
-                            'assets/images/distressoLogo.png',
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.fill,
-                          )),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.height * 0.3,
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: FlareActor(
+                              'assets/navbarIcons/DistressoProjectLoading.flr',
+                              isPaused:  false,
+                              alignment: Alignment.center,
+                              fit: BoxFit.contain,
+                              animation: 'go' ,
+                            ),
+                          ),
+                        ),),
                       SizedBox(
                         height: 20,
                       ),
