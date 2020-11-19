@@ -1,5 +1,6 @@
 import 'package:distressoble/constants/colors.dart';
 import 'package:distressoble/ui/screens/bluetooth_screen.dart';
+import 'package:distressoble/ui/screens/group.dart';
 import 'package:distressoble/ui/screens/home.dart';
 import 'package:distressoble/ui/screens/maps_test.dart';
 import 'package:distressoble/ui/screens/profile.dart';
@@ -31,7 +32,7 @@ class _NavbarState extends State<Navbar> {
   List screens =[
     UserStatsScreen(), //user stats
     ProfileScreen(),
-    MapScreen(),
+    GroupScreen(),
     BluetoothTempScreen(), // Bluetooth Screen
   ];
 

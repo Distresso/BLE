@@ -19,7 +19,7 @@ class _GroupScreenState extends State<GroupScreen> {
   BitmapDescriptor _userIcon;
   BitmapDescriptor _alertIcon;
   LatLng _lastLocation;
-  LatLng _dest;
+  //LatLng _dest;
   DateTime _lastUpdated;
 
   bool get shouldClearMap {
@@ -34,7 +34,7 @@ class _GroupScreenState extends State<GroupScreen> {
 
       _markers.clear();
       _addUserLocationMarker();
-      _setDestinationMarker();
+      //_setDestinationMarker();
     }
   }
 
@@ -63,10 +63,10 @@ class _GroupScreenState extends State<GroupScreen> {
     // }
 
     _addUserLocationMarker();
-    _setDestinationMarker();
+    //_setDestinationMarker();
 
-    _zoomToBounds();
-    _sendRouteRequest();
+    //_zoomToBounds();
+    //_sendRouteRequest();
   }
 
   _setMapListeners() async {
@@ -79,13 +79,13 @@ class _GroupScreenState extends State<GroupScreen> {
     //   _updateMap(event);
   }
 
-  _sendRouteRequest() async {
-    String route = await GoogleMapsServices().getRouteCoordinates(_lastLocation, _dest);
-    if (route == null || route == '') return;
-
-    _polyLines = LocationService().createRoute(route);
-    setState(() {});
-  }
+//  _sendRouteRequest() async {
+//    String route = await GoogleMapsServices().getRouteCoordinates(_lastLocation, _dest);
+//    if (route == null || route == '') return;
+//
+//    _polyLines = LocationService().createRoute(route);
+//    setState(() {});
+//  }
 
   setCustomMapPin() async {
     // _alertIcon = await GoogleMapsServices().bitmapDescriptorFromSvgAsset(context, 'assets/svg/alert.svg');
@@ -104,16 +104,16 @@ class _GroupScreenState extends State<GroupScreen> {
     setState(() {});
   }
 
-  _setDestinationMarker() {
-    _markers.add(
-      Marker(
-        markerId: MarkerId('2'),
-        position: _dest,
-        infoWindow: InfoWindow(title: 'Destination', snippet: "go here"),
-        icon: _alertIcon,
-      ),
-    );
-  }
+//  _setDestinationMarker() {
+//    _markers.add(
+//      Marker(
+//        markerId: MarkerId('2'),
+//        position: _dest,
+//        infoWindow: InfoWindow(title: 'Destination', snippet: "go here"),
+//        icon: _alertIcon,
+//      ),
+//    );
+//  }
 
   _onMapCreated(GoogleMapController controller) {
     _addUserLocationMarker();
@@ -121,23 +121,23 @@ class _GroupScreenState extends State<GroupScreen> {
     _setMapListeners();
   }
 
-  _zoomToBounds() {
-    LatLngBounds bound;
-    if (_dest.latitude > _lastLocation.latitude && _dest.longitude > _lastLocation.longitude) {
-      bound = LatLngBounds(southwest: _lastLocation, northeast: _dest);
-    } else if (_dest.longitude > _lastLocation.longitude) {
-      bound = LatLngBounds(southwest: LatLng(_dest.latitude, _lastLocation.longitude), northeast: LatLng(_lastLocation.latitude, _dest.longitude));
-    } else if (_dest.latitude > _lastLocation.latitude) {
-      bound = LatLngBounds(southwest: LatLng(_lastLocation.latitude, _dest.longitude), northeast: LatLng(_dest.latitude, _lastLocation.longitude));
-    } else {
-      bound = LatLngBounds(southwest: _dest, northeast: _lastLocation);
-    }
-
-    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 100);
-    _mapController?.animateCamera(u2)?.then((void v) {
-      _check(u2, _mapController);
-    });
-  }
+//  _zoomToBounds() {
+//    LatLngBounds bound;
+//    if (_dest.latitude > _lastLocation.latitude && _dest.longitude > _lastLocation.longitude) {
+//      bound = LatLngBounds(southwest: _lastLocation, northeast: _dest);
+//    } else if (_dest.longitude > _lastLocation.longitude) {
+//      bound = LatLngBounds(southwest: LatLng(_dest.latitude, _lastLocation.longitude), northeast: LatLng(_lastLocation.latitude, _dest.longitude));
+//    } else if (_dest.latitude > _lastLocation.latitude) {
+//      bound = LatLngBounds(southwest: LatLng(_lastLocation.latitude, _dest.longitude), northeast: LatLng(_dest.latitude, _lastLocation.longitude));
+//    } else {
+//      bound = LatLngBounds(southwest: _dest, northeast: _lastLocation);
+//    }
+//
+//    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 100);
+//    _mapController?.animateCamera(u2)?.then((void v) {
+//      _check(u2, _mapController);
+//    });
+//  }
 
   _check(CameraUpdate u, GoogleMapController c) async {
     c.animateCamera(u);
@@ -148,43 +148,39 @@ class _GroupScreenState extends State<GroupScreen> {
   }
 
   _map(LatLng position) {
-    return Stack(
-      children: <Widget>[
-        GoogleMap(
-          markers: _markers,
-          initialCameraPosition: CameraPosition(target: position, zoom: 13),
-          onMapCreated: _onMapCreated,
-          myLocationEnabled: false,
-          myLocationButtonEnabled: false,
-          mapToolbarEnabled: false,
-          polylines: _polyLines,
-        ),
-        Offstage(
-          offstage: !_mapError,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: <Widget>[
-                Text('Error loading map.\nPlease enable your location in settings', textAlign: TextAlign.center),
-                FlatButton(
-                  onPressed: () {
-                    BlocProvider.of<LocationCubit>(context).locationStarted();
-                    setState(() {});
-                  },
-                  child: Text('Retry'),
-                ),
-              ],
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            markers: _markers,
+            initialCameraPosition: CameraPosition(target: position, zoom: 13),
+            onMapCreated: _onMapCreated,
+            myLocationEnabled: false,
+            myLocationButtonEnabled: false,
+            mapToolbarEnabled: false,
+            polylines: _polyLines,
+          ),
+          Offstage(
+            offstage: !_mapError,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: <Widget>[
+                  Text('Error loading map.\nPlease enable your location in settings', textAlign: TextAlign.center),
+                  FlatButton(
+                    onPressed: () {
+                      BlocProvider.of<LocationCubit>(context).locationStarted();
+                      setState(() {});
+                    },
+                    child: Text('Retry'),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        // Offstage(
-        //   offstage: _responseServiceAction == null && widget.lastResponseServiceAction == null,
-        //   child: IconButton(
-        //     icon: Icon(Icons.refresh, color: purple),
-        //     onPressed: () => _updateMap(_responseServiceAction ?? widget.lastResponseServiceAction),
-        //   ),
-        // ),
-      ],
+          
+        ],
+      ),
     );
   }
 
