@@ -33,20 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 'Map Screen',
               ),
-              onPressed: () async{
-                if(Platform.isIOS) {
-                  print(await Permission.locationWhenInUse.status);
-                  print(await Permission.locationWhenInUse.serviceStatus.isEnabled);
-                  if (await Permission.locationWhenInUse.isGranted == false) {
-                    print('eee');
-                    await Permission.locationWhenInUse
-                        .request()
-                        .isGranted;
-                    setState(() {
-                      print('aaa');
-                    });
-                  }
-                }
+              onPressed: (){
                 Navigator.of(context).pushNamed(GROUP);
               }
             ),

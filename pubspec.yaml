@@ -29,7 +29,6 @@ dependencies:
   flutter_svg: ^0.19.0
   flutter_local_notifications: ^3.0.1+4
   flare_flutter: ^2.0.6
-  audioplayers: ^0.16.1
   cupertino_icons: ^1.0.0
   sp_user_repository:
     path: ../../spaza-packages/user-repository
