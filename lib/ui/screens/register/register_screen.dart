@@ -1,6 +1,6 @@
+import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_user_repository/sp_user_repository.dart';
 
 import 'register_form.dart';
 

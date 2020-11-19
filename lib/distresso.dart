@@ -1,3 +1,4 @@
+import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/qubit/location_cubit/location_cubit.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
 import 'package:distressoble/store/firebase_user_repository.dart';
@@ -7,7 +8,6 @@ import 'package:distressoble/ui/screens/maps_test.dart';
 import 'package:distressoble/ui/screens/splash_screen.dart';
 import 'package:distressoble/ui/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_user_repository/sp_user_repository.dart';
 
 import 'constants/routes.dart';
 import 'ui/screens/profile.dart';

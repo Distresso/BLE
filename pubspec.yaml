@@ -30,10 +30,10 @@ dependencies:
   flutter_local_notifications: ^3.0.1+4
   flare_flutter: ^2.0.6
   cupertino_icons: ^1.0.0
-  sp_user_repository:
-    path: ../../spaza-packages/user-repository
-  sp_utilities:
-    path: ../../spaza-packages/sp-utilities
+  distresso_user_package:
+    path: ../../distresso_packages/distresso_user_package
+  distresso_utilities_package:
+    path: ../../distresso_packages/distresso_utilities_package
 
 
 dev_dependencies:

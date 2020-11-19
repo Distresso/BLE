@@ -1,6 +1,6 @@
+import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/ui/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:sp_user_repository/sp_user_repository.dart';
 
 
 class CreateAccountButton extends StatelessWidget {

@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/Model/UserModel.dart';
 import 'package:distressoble/store/firebase_user_repository.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:sp_user_repository/sp_user_repository.dart';
+
 
 part 'profile_state.dart';
 

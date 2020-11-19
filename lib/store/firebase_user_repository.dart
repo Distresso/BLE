@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/Model/UserModel.dart';
 import 'package:distressoble/utilities/helper_file.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:sp_user_repository/sp_user_repository.dart';
+
 
 class AppUserProfileRepository {
   final userProfileCollection = FirebaseFirestore.instance.collection('userProfiles');
