@@ -11,44 +11,44 @@ class GroupCubit extends Cubit<GroupState> {
   FirebaseGroupRepository groupRepository = FirebaseGroupRepository();
 
   Future<Group> loadGroup({User user})async{
-    emit(GroupLoading());
+    emit(GroupLoading(state.mainGroupState));
     try{
       Group group = await groupRepository.getUserGroup(appUser: user);
-      emit(GroupLoaded(group: group));
+      emit(GroupLoaded(state.mainGroupState.copyWith(group: group)));
     }catch(error){
-      emit(GroupError());
+      emit(GroupError(state.mainGroupState));
       print(error.toString());
     }
   }
 
   Future<void> leaveGroup({User user})async{
-    emit(GroupLoading());
+    emit(GroupLoading(state.mainGroupState));
     try{
-      groupRepository.leaveGroup(userProfile: user, group: state.group);
-      emit(GroupLoaded(group: null));
+      groupRepository.leaveGroup(userProfile: user, group: state.mainGroupState.group);
+      emit(GroupLoaded(state.mainGroupState.copyWith(group: null)));
     }catch(error){
-      emit(GroupError());
+      emit(GroupError(state.mainGroupState));
     }
   }
 
   Future<void> createGroup({User user, String groupName})async{
-    emit(GroupLoading());
+    emit(GroupLoading(state.mainGroupState));
     try{
       groupRepository.createGroup(userProfile: user, groupName: groupName);
       Group group = await groupRepository.getUserGroup(appUser: user);
-      emit(GroupLoaded(group: group));
+      emit(GroupLoaded(state.mainGroupState.copyWith(group: group)));
     }catch(error){
       print(error.toString());
     }
   }
   Future<void> updateGroup({User user, Group group})async{
-    emit(GroupLoading());
+    emit(GroupLoading(state.mainGroupState));
     try{
     await groupRepository.updateGroup(group: group, userProfile: user);
     Group updatedGroup = await groupRepository.getUserGroup(appUser: user);
-    emit(GroupLoaded(group: updatedGroup));
+    emit(GroupLoaded(state.mainGroupState.copyWith(group: updatedGroup)));
     }catch(error){
-      emit(GroupError());
+      emit(GroupError(state.mainGroupState));
       print(error.toString());
     }
   }
