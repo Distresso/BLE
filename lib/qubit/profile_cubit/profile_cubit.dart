@@ -15,23 +15,23 @@ class ProfileCubit extends Cubit<ProfileState> {
         super(ProfileInitial());
 
   loadProfile() async {
-    emit(ProfileLoading(message: 'Loading...', authProviderUserDetails: state.authProviderUserDetails, user: state.user));
+    emit(ProfileLoading(state.mainProfileState.copyWith(message: 'Loading...')));
     try {
       User user = await _user.getUserProfile();
       AuthProviderUserDetails authProviderUserDetails = await AuthProviderRepository().loadUserFromPrefs();
-      emit(ProfileLoaded(user: user, authProviderUserDetails: authProviderUserDetails));
+      emit(ProfileLoaded(state.mainProfileState.copyWith(user: user, authProviderUserDetails: authProviderUserDetails)));
     } catch (error) {
-      emit(ProfileError(message: error.toString(), authProviderUserDetails: state.authProviderUserDetails, user: state.user));
+      emit(ProfileError(state.mainProfileState.copyWith(message: error.toString())));
     }
   }
 
   updateProfile(User user) async {
-    emit(ProfileUpdating(message: 'Loading...', authProviderUserDetails: state.authProviderUserDetails, user: user));
+    emit(ProfileLoading(state.mainProfileState.copyWith(message: 'Loading...')));
     try {
-      await _user.updateUserProfile(userProfile: user, authProviderUserDetails: state.authProviderUserDetails);
-      emit(ProfileLoaded(user: user, authProviderUserDetails: state.authProviderUserDetails));
+      await _user.updateUserProfile(userProfile: user, authProviderUserDetails: state.mainProfileState.authProviderUserDetails);
+      emit(ProfileLoaded(state.mainProfileState.copyWith(user: user)));
     } catch (error) {
-      emit(ProfileError(message: error.toString(), authProviderUserDetails: state.authProviderUserDetails, user: state.user));
+      emit(ProfileError(state.mainProfileState.copyWith(message: error.toString())));
     }
   }
 }

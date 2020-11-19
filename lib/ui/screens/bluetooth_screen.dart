@@ -21,7 +21,6 @@ class _BluetoothTempScreenState extends State<BluetoothTempScreen> {
                 style: TextStyle(
                   fontSize: 28,
                   color: Colors.white,
-                  decoration: TextDecoration.underline,
                 ),
               ),
             )),

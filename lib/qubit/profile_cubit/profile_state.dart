@@ -1,32 +1,57 @@
 part of 'profile_cubit.dart';
 
-abstract class ProfileState extends Equatable {
+class MainProfileState extends Equatable{
   final String message;
   final User user;
   final AuthProviderUserDetails authProviderUserDetails;
 
-  ProfileState({this.message, this.user, this.authProviderUserDetails});
+  MainProfileState({this.message, this.user, this.authProviderUserDetails});
 
   @override
   List<Object> get props => [message, user, authProviderUserDetails];
+
+  MainProfileState copyWith({
+    String message,
+    User user,
+    AuthProviderUserDetails authProviderUserDetails,
+  }) {
+    if ((message == null || identical(message, this.message)) && (user == null || identical(user, this.user)) && (authProviderUserDetails == null || identical(authProviderUserDetails, this.authProviderUserDetails))) {
+      return this;
+    }
+
+    return new MainProfileState(
+      message: message ?? this.message,
+      user: user ?? this.user,
+      authProviderUserDetails: authProviderUserDetails ?? this.authProviderUserDetails,
+    );
+  }
+}
+
+abstract class ProfileState extends Equatable {
+  final MainProfileState mainProfileState;
+
+  ProfileState(this.mainProfileState);
+
+  @override
+  List<Object> get props => [mainProfileState];
 }
 
 class ProfileInitial extends ProfileState {
-  ProfileInitial() : super(message: null, user: null, authProviderUserDetails: null);
+  ProfileInitial() : super(MainProfileState());
 }
 
 class ProfileLoading extends ProfileState {
-  ProfileLoading({String message, @required User user, @required AuthProviderUserDetails authProviderUserDetails}) : super(message: message, user: user, authProviderUserDetails: authProviderUserDetails);
+  ProfileLoading(MainProfileState mainProfileState) : super(mainProfileState);
 }
 
 class ProfileLoaded extends ProfileState {
-  ProfileLoaded({String message, @required User user, @required AuthProviderUserDetails authProviderUserDetails}) : super(message: message, user: user, authProviderUserDetails: authProviderUserDetails);
+  ProfileLoaded(MainProfileState mainProfileState) : super(mainProfileState);
 }
 
 class ProfileUpdating extends ProfileState {
-  ProfileUpdating({String message, @required User user, @required AuthProviderUserDetails authProviderUserDetails}) : super(message: message, user: user, authProviderUserDetails: authProviderUserDetails);
+  ProfileUpdating(MainProfileState mainProfileState) : super(mainProfileState);
 }
 
 class ProfileError extends ProfileState {
-  ProfileError({String message, @required User user, @required AuthProviderUserDetails authProviderUserDetails}) : super(message: message, user: user, authProviderUserDetails: authProviderUserDetails);
+  ProfileError(MainProfileState mainProfileState) : super(mainProfileState);
 }

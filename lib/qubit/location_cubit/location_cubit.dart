@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:meta/meta.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'location_state.dart';
@@ -24,17 +23,17 @@ class LocationCubit extends Cubit<LocationState> {
 
     if (statuses[Permission.location] != PermissionStatus.granted) {
       granted = false;
-      emit(LocationPermissionErrorState('Permission error ${statuses[Permission.location].toString().split('.').last}'));
+      emit(LocationPermissionErrorState(state.mainLocationState));
     }
 
     if (statuses[Permission.locationAlways] != PermissionStatus.granted) {
       granted = false;
-      emit(LocationPermissionErrorState('Permission error ${statuses[Permission.locationAlways].toString().split('.').last}'));
+      emit(LocationPermissionErrorState(state.mainLocationState));
     }
 
     if (statuses[Permission.locationWhenInUse] != PermissionStatus.granted) {
       granted = false;
-      emit(LocationPermissionErrorState('Permission error ${statuses[Permission.locationWhenInUse].toString().split('.').last}'));
+      emit(LocationPermissionErrorState(state.mainLocationState));
     }
 
     if (granted) {
@@ -43,14 +42,14 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   locationStarted() async {
-    emit(LocationLoadingState());
+    emit(LocationLoadingState(state.mainLocationState));
 
     LocationPermission status = await checkPermission();
     bool enabled = await isLocationServiceEnabled();
 
     if ((status == LocationPermission.always || status == LocationPermission.whileInUse) && enabled) {
       Position position = await getLastKnownPosition();
-      if (position != null) emit(LocationLoadedState(position: position));
+      if (position != null) emit(LocationLoadedState(state.mainLocationState.copyWith(position: position)));
       locationSubscription?.cancel();
       locationSubscription = getPositionStream().listen(
         (Position position) => locationChanged(position: position),
@@ -58,9 +57,9 @@ class LocationCubit extends Cubit<LocationState> {
     } else if (status == LocationPermission.denied || status == LocationPermission.deniedForever) {
       askLocationPermission();
     } else if (!enabled) {
-      emit(LocationErrorState(error: 'Location disabled on the device'));
+      emit(LocationErrorState(state.mainLocationState));
     } else {
-      emit(LocationPermissionErrorState('Location permission error ${status.toString().split('.').last}'));
+      emit(LocationPermissionErrorState(state.mainLocationState));
     }
   }
 
@@ -70,7 +69,7 @@ class LocationCubit extends Cubit<LocationState> {
   }
 
   locationChanged({Position position}) async {
-    emit(LocationUpdatedState(position: position));
+    emit(LocationUpdatedState(state.mainLocationState.copyWith(position: position)));
   }
 
   @override

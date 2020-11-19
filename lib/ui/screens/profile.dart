@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _updateProfile() {
     _profileCubit.updateProfile(
-      _profileCubit.state.user.copyWith(
+      _profileCubit.state.mainProfileState.user.copyWith(
         name: _nameController.text,
         surname: _surnameController.text,
         phoneNumber: _numberController.text,
@@ -44,13 +44,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _loadInitialValues(ProfileLoaded state) {
     try {
-      _nameController.text = state.user.name;
-      _surnameController.text = state.user.surname;
-      _numberController.text = state.user.phoneNumber;
-      _ageController.text = state.user.age.toString();
-      _heightController.text = state.user.height.toString();
-      _weightController.text = state.user.weight.toString();
-      _genderController.text = state.user.gender;
+      _nameController.text = state.mainProfileState.user.name;
+      _surnameController.text = state.mainProfileState.user.surname;
+      _numberController.text = state.mainProfileState.user.phoneNumber;
+      _ageController.text = state.mainProfileState.user.age.toString();
+      _heightController.text = state.mainProfileState.user.height.toString();
+      _weightController.text = state.mainProfileState.user.weight.toString();
+      _genderController.text = state.mainProfileState.user.gender;
     } catch (error) {
       print(error.toString());
     }
@@ -76,7 +76,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           style: TextStyle(
             fontSize: 28,
             color: Colors.white,
-            decoration: TextDecoration.underline,
           ),
         ),
         actions: <Widget>[IconButton(icon: Icon(Icons.person), onPressed: _logOut), Text('Sign Out')],
@@ -94,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   children: [
                     LoadingIndicator(),
-                    Text(state.message),
+                    Text(state.mainProfileState.message),
                   ],
                 ),
               );

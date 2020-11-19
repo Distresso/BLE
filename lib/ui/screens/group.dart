@@ -204,13 +204,13 @@ class _GroupScreenState extends State<GroupScreen> {
             _mapError = false;
 
             if (state is LocationLoadedState) {
-              _lastLocation = LatLng(state.position.latitude, state.position.longitude);
+              _lastLocation = LatLng(state.mainLocationState.position.latitude, state.mainLocationState.position.longitude);
               _updateMap();
               setState(() {});
             }
 
             if (state is LocationUpdatedState) {
-              _lastLocation = LatLng(state.position.latitude, state.position.longitude);
+              _lastLocation = LatLng(state.mainLocationState.position.latitude, state.mainLocationState.position.longitude);
               _updateMap();
             }
 

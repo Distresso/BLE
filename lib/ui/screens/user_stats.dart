@@ -31,7 +31,6 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                   style: TextStyle(
                     fontSize: 22,
                     color: Colors.white,
-                    decoration: TextDecoration.underline,
                   ),
                 ),
               )),
@@ -48,7 +47,6 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
-                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
@@ -67,7 +65,6 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
-                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
