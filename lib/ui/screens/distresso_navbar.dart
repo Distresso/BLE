@@ -71,7 +71,7 @@ class _NavbarState extends State<Navbar> {
       children: [
         Expanded(flex: 8, child: screens[selectedIndex],),
         Expanded(
-          flex: 2,
+          flex: 1,
           child: Container(
             color: cardColor,
             child: Stack(

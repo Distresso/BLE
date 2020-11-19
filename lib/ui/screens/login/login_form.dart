@@ -78,81 +78,86 @@ class _LoginFormState extends State<LoginForm> {
       },
       child: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
-          return Column(
+          return ListView(
+            shrinkWrap: true,
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.12,
-              ),
-              Center(
-                  child: Image.asset(
-                'assets/images/distressoLogo.png',
-                height: 120,
-                width: 120,
-                fit: BoxFit.fill,
-              )),
-              SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: Text(
-                  "Distresso",
-                  style: TextStyle(
-                    fontFamily: "Montserrat-SemiBold",
-                    fontSize: 32,
-                    color: Colors.white,
+              Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.12,
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Form(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _emailController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(color: Colors.white),
-                        contentPadding: const EdgeInsets.all(20.0),
-                        errorText:
+                  Center(
+                      child: Image.asset(
+                        'assets/images/distressoLogo.png',
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.fill,
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Text(
+                      "Distresso",
+                      style: TextStyle(
+                        fontFamily: "Montserrat-SemiBold",
+                        fontSize: 32,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Form(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          controller: _emailController,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: TextStyle(color: Colors.white),
+                            contentPadding: const EdgeInsets.all(20.0),
+                            errorText:
                             state.email.invalid ? 'invalid email' : null,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                      onChanged: (value) =>
-                          _loginCubit.emailChanged(value),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                          onChanged: (value) =>
+                              _loginCubit.emailChanged(value),
+                        ),
+                        TextFormField(
+                          controller: _passwordController,
+                          style: TextStyle(color: Colors.white),
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(20),
+                            labelText: 'Password',
+                            labelStyle: TextStyle(color: Colors.white),
+                            errorText: state.password.invalid
+                                ? 'invalid password'
+                                : null,
+                          ),
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          onChanged: (value) =>
+                              _loginCubit.passwordChanged(value),
+                        ),
+                      ],
                     ),
-                    TextFormField(
-                      controller: _passwordController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.all(20),
-                        labelText: 'Password',
-                        labelStyle: TextStyle(color: Colors.white),
-                        errorText: state.password.invalid
-                            ? 'invalid password'
-                            : null,
-                      ),
-                      keyboardType: TextInputType.text,
-                      obscureText: true,
-                      onChanged: (value) =>
-                          _loginCubit.passwordChanged(value),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        LoginButton(
+                            onPressed: isLoginButtonEnabled(state)
+                                ? _onFormSubmitted
+                                : null),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    LoginButton(
-                        onPressed: isLoginButtonEnabled(state)
-                            ? _onFormSubmitted
-                            : null),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           );

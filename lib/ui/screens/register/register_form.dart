@@ -82,78 +82,83 @@ class _RegisterFormState extends State<RegisterForm> {
         builder: (context, state) {
           return Scaffold(
               backgroundColor: backgroundColor,
-              body: Column(
+              body: ListView(
+                shrinkWrap: true,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.12,
-                  ),
-                  Center(
-                      child: Image.asset(
-                    'assets/images/distressoLogo.png',
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.fill,
-                  )),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: Text(
-                      "Distresso",
-                      style: TextStyle(
-                        fontFamily: "Montserrat-SemiBold",
-                        fontSize: 32,
-                        color: Colors.white,
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.12,
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Form(
-                    child: Column(
-                      children: <Widget>[
-                        Column(
-                          children: [
-                            TextFormField(
-                              controller: _emailController,
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                labelText: 'Email',
-                                labelStyle: TextStyle(color: Colors.white),
-                              ),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (_) {
-                                return state.email.invalid
-                                    ? 'Invalid Email'
-                                    : null;
-                              },
+                      Center(
+                          child: Image.asset(
+                            'assets/images/distressoLogo.png',
+                            height: 120,
+                            width: 120,
+                            fit: BoxFit.fill,
+                          )),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          "Distresso",
+                          style: TextStyle(
+                            fontFamily: "Montserrat-SemiBold",
+                            fontSize: 32,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Form(
+                        child: Column(
+                          children: <Widget>[
+                            Column(
+                              children: [
+                                TextFormField(
+                                  controller: _emailController,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    labelText: 'Email',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                  ),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (_) {
+                                    return state.email.invalid
+                                        ? 'Invalid Email'
+                                        : null;
+                                  },
+                                ),
+                                Divider(endIndent: 20),
+                                TextFormField(
+                                  controller: _passwordController,
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    labelText: 'Password',
+                                    labelStyle: TextStyle(color: Colors.white),
+                                  ),
+                                  keyboardType: TextInputType.text,
+                                  validator: (_) {
+                                    return state.email.invalid
+                                        ? 'Invalid Email'
+                                        : null;
+                                  },
+                                  obscureText: true,
+                                ),
+                              ],
                             ),
-                            Divider(endIndent: 20),
-                            TextFormField(
-                              controller: _passwordController,
-                              style: TextStyle(color: Colors.white),
-                              decoration: InputDecoration(
-                                labelText: 'Password',
-                                labelStyle: TextStyle(color: Colors.white),
-                              ),
-                              keyboardType: TextInputType.text,
-                              validator: (_) {
-                                return state.email.invalid
-                                    ? 'Invalid Email'
-                                    : null;
-                              },
-                              obscureText: true,
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 20),
+                              child: LoginWithAccountButton(
+                                  authCredentialHelper: _authCredentialHelper),
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: LoginWithAccountButton(
-                              authCredentialHelper: _authCredentialHelper),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
