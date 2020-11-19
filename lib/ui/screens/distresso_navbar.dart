@@ -1,8 +1,10 @@
 import 'package:distressoble/constants/colors.dart';
+import 'package:distressoble/ui/screens/bluetooth_screen.dart';
 import 'package:distressoble/ui/screens/home.dart';
 import 'package:distressoble/ui/screens/maps_test.dart';
 import 'package:distressoble/ui/screens/profile.dart';
 import 'package:distressoble/ui/screens/splash_screen.dart';
+import 'package:distressoble/ui/screens/user_stats.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 class MenuItem {
@@ -27,10 +29,10 @@ class _NavbarState extends State<Navbar> {
     MenuItem(x: 1.0, name: 'DistressoNavbarBluetooth', color: bluetoothColour),
   ];
   List screens =[
-    HomeScreen(), //user stats
+    UserStatsScreen(), //user stats
     ProfileScreen(),
     MapScreen(),
-    HomeScreen(), // Bluetooth Screen
+    BluetoothTempScreen(), // Bluetooth Screen
   ];
 
   Widget _flare(MenuItem item) {
