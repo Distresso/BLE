@@ -22,6 +22,9 @@ User _$UserFromJson(Map<String, dynamic> json) {
     email: json['email'] as String,
     phoneNumber: json['phoneNumber'] as String,
     imageURL: json['imageURL'] as String,
+    lastUpdated: json['lastUpdated'] == null
+        ? null
+        : DateTime.parse(json['lastUpdated'] as String),
   );
 }
 
@@ -40,4 +43,5 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'imageURL': instance.imageURL,
       'weight': instance.weight,
       'groupId': instance.groupId,
+      'lastUpdated': instance.lastUpdated?.toIso8601String(),
     };

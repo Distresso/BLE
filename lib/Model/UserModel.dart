@@ -1,6 +1,7 @@
+import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:sp_user_repository/sp_user_repository.dart';
+
 
 part 'UserModel.g.dart';
 
@@ -21,8 +22,9 @@ class User {
   final String imageURL;
   final num weight;
   final String groupId;
+  final DateTime lastUpdated;
 
-  User({this.groupId, this.uid, this.age, this.currVital, this.gender, this.height, this.lat, this.lon, this.name, this.surname, this.weight, this.email, this.phoneNumber, this.imageURL});
+  User({this.groupId, this.uid, this.age, this.currVital, this.gender, this.height, this.lat, this.lon, this.name, this.surname, this.weight, this.email, this.phoneNumber, this.imageURL, this.lastUpdated});
 
   factory User.fromAuthProviderUserDetails(AuthProviderUserDetails authProviderUserDetails) => User(
         uid: authProviderUserDetails.id,
@@ -50,8 +52,9 @@ class User {
     String phoneNumber,
     String imageURL,
     String groupId,
+    DateTime lastUpdated,
   }) {
-    if ((id == null || identical(id, this.uid)) && (age == null || identical(age, this.age)) && (currVital == null || identical(currVital, this.currVital)) && (gender == null || identical(gender, this.gender)) && (height == null || identical(height, this.height)) && (lat == null || identical(lat, this.lat)) && (lon == null || identical(lon, this.lon)) && (name == null || identical(name, this.name)) && (surname == null || identical(surname, this.surname)) && (weight == null || identical(weight, this.weight)) && (email == null || identical(email, this.email)) && (phoneNumber == null || identical(phoneNumber, this.phoneNumber)) && (imageURL == null || identical(imageURL, this.imageURL)) && (groupId == null || identical(groupId, this.groupId))) {
+    if ((id == null || identical(id, this.uid)) && (age == null || identical(age, this.age)) && (currVital == null || identical(currVital, this.currVital)) && (gender == null || identical(gender, this.gender)) && (height == null || identical(height, this.height)) && (lat == null || identical(lat, this.lat)) && (lon == null || identical(lon, this.lon)) && (name == null || identical(name, this.name)) && (surname == null || identical(surname, this.surname)) && (weight == null || identical(weight, this.weight)) && (email == null || identical(email, this.email)) && (phoneNumber == null || identical(phoneNumber, this.phoneNumber)) && (imageURL == null || identical(imageURL, this.imageURL)) && (groupId == null || identical(groupId, this.groupId)) && (lastUpdated == null || identical(lastUpdated, this.lastUpdated))) {
       return this;
     }
 
@@ -70,6 +73,7 @@ class User {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       imageURL: imageURL ?? this.imageURL,
       groupId: groupId ?? this.groupId,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
     );
   }
 }
