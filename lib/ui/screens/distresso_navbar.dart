@@ -1,10 +1,7 @@
 import 'package:distressoble/constants/colors.dart';
 import 'package:distressoble/ui/screens/bluetooth_screen.dart';
 import 'package:distressoble/ui/screens/group.dart';
-import 'package:distressoble/ui/screens/home.dart';
-import 'package:distressoble/ui/screens/maps_test.dart';
 import 'package:distressoble/ui/screens/profile.dart';
-import 'package:distressoble/ui/screens/splash_screen.dart';
 import 'package:distressoble/ui/screens/user_stats.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
