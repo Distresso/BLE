@@ -1,5 +1,6 @@
 import 'package:distressoble/Model/GroupModel.dart';
 import 'package:distressoble/Model/UserModel.dart';
+import 'package:distressoble/constants/routes.dart';
 import 'package:distressoble/qubit/group_cubit/group_cubit.dart';
 import 'package:distressoble/qubit/location_cubit/location_cubit.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
@@ -156,7 +157,7 @@ class _GroupScreenState extends State<GroupScreen> {
                       elevation: 16,
                       color: Colors.black,
                       child: Center(child: Text('Manage Group', style: TextStyle(color: Colors.white, fontSize: 14),),),
-                      onPressed: () => null,
+                      onPressed: () => Navigator.of(context).pushNamed(GROUP_MANAGE),
                     ),
                   ),
                 ),

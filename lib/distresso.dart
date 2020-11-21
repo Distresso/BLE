@@ -4,6 +4,7 @@ import 'package:distressoble/qubit/location_cubit/location_cubit.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
 import 'package:distressoble/store/firebase_user_repository.dart';
 import 'package:distressoble/ui/screens/distresso_navbar.dart';
+import 'package:distressoble/ui/screens/group_management.dart';
 import 'package:distressoble/ui/screens/login/login_screen.dart';
 import 'package:distressoble/ui/screens/maps_test.dart';
 import 'package:distressoble/ui/screens/splash_screen.dart';
@@ -54,6 +55,7 @@ class Distresso extends StatelessWidget {
                     PROFILE: (context) => ProfileScreen(),
                     HOME: (context) => Navbar(),
                     GROUP: (context) => MapScreen(),
+                    GROUP_MANAGE: (context) => GroupManagementScreen(),
                   },
                 ),
               );
