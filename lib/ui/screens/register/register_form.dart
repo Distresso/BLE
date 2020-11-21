@@ -22,16 +22,12 @@ class _RegisterFormState extends State<RegisterForm> {
 
   RegisterCubit _registerCubit;
 
-  AuthCredentialHelper get _authCredentialHelper =>
-      widget._authCredentialHelper;
+  AuthCredentialHelper get _authCredentialHelper => widget._authCredentialHelper;
 
-  bool get isPopulated =>
-      _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+  bool get isPopulated => _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
   bool isRegisterButtonEnabled(RegisterState state) {
-    return state.status.isValid &&
-        isPopulated &&
-        !state.status.isSubmissionInProgress;
+    return state.status.isValid && isPopulated && !state.status.isSubmissionInProgress;
   }
 
   @override
@@ -49,13 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state.status.isSubmissionInProgress) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                  Text('Registering...'),
-                  CircularProgressIndicator()
-                ])));
+            ..showSnackBar(SnackBar(content: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Text('Registering...'), CircularProgressIndicator()])));
         }
 
         if (state.status.isSubmissionSuccess) {
@@ -66,124 +56,125 @@ class _RegisterFormState extends State<RegisterForm> {
         if (state.status.isSubmissionFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(SnackBar(
-                content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child:
-                              Text('Registration Failure\n${state.message}')),
-                      Icon(Icons.error)
-                    ]),
-                backgroundColor: Colors.red));
+            ..showSnackBar(SnackBar(content: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [Expanded(child: Text('Registration Failure\n${state.message}')), Icon(Icons.error)]), backgroundColor: Colors.red));
           print('Register Failure');
         }
       },
       child: BlocBuilder<RegisterCubit, RegisterState>(
         builder: (context, state) {
           return Scaffold(
-              backgroundColor: backgroundColor,
-              body: ListView(
-                shrinkWrap: true,
-                children: [
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.08,
-                      ),
-                      Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          height: MediaQuery.of(context).size.height * 0.3,
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: FlareActor(
-                              'assets/navbarIcons/DistressoProjectLoading.flr',
-                              isPaused:  false,
-                              alignment: Alignment.center,
-                              fit: BoxFit.contain,
-                              animation: 'go' ,
-                            ),
-                          ),
-                        ),),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Text(
-                          "Distresso",
-                          style: TextStyle(
-                            fontFamily: "Montserrat-SemiBold",
-                            fontSize: 32,
-                            color: Colors.white,
+            backgroundColor: backgroundColor,
+            body: ListView(
+              shrinkWrap: true,
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.08,
+                    ),
+                    Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        height: MediaQuery.of(context).size.height * 0.3,
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: FlareActor(
+                            'assets/navbarIcons/DistressoProjectLoading.flr',
+                            isPaused: false,
+                            alignment: Alignment.center,
+                            fit: BoxFit.contain,
+                            animation: 'go',
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 30,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Text(
+                        "Distresso",
+                        style: TextStyle(
+                          fontFamily: "Montserrat-SemiBold",
+                          fontSize: 32,
+                          color: Colors.white,
+                        ),
                       ),
-                      Form(
-                        child: Column(
-                          children: <Widget>[
-                            Column(
-                              children: [
-                                TextFormField(
-                                  controller: _emailController,
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    labelText: 'Email',
-                                    labelStyle: TextStyle(color: Colors.white),
-                                  ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (_) {
-                                    return state.email.invalid
-                                        ? 'Invalid Email'
-                                        : null;
-                                  },
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Form(
+                      child: Column(
+                        children: <Widget>[
+                          Column(
+                            children: [
+                              TextFormField(
+                                controller: _emailController,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                  labelText: 'Email',
+                                  contentPadding: const EdgeInsets.all(20.0),
+                                  labelStyle: TextStyle(color: Colors.white),
                                 ),
-                                Divider(endIndent: 20),
-                                TextFormField(
-                                  controller: _passwordController,
-                                  style: TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    labelStyle: TextStyle(color: Colors.white),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: (_) {
+                                  return state.email.invalid ? 'Invalid Email' : null;
+                                },
+                              ),
+                              Divider(endIndent: 20),
+                              TextFormField(
+                                controller: _passwordController,
+                                style: TextStyle(color: Colors.white),
+                                decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  contentPadding: const EdgeInsets.all(20.0),
+                                  labelStyle: TextStyle(color: Colors.white),
+                                ),
+                                keyboardType: TextInputType.text,
+                                validator: (_) {
+                                  return state.email.invalid ? 'Invalid Email' : null;
+                                },
+                                obscureText: true,
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: RaisedButton(
+                                    color: secondaryButtonColor,
+                                    splashColor: secondaryButtonColor,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                                    onPressed: isRegisterButtonEnabled(state) ? _onFormSubmitted : null,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Text(
+                                        'Login',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                    ),
                                   ),
-                                  keyboardType: TextInputType.text,
-                                  validator: (_) {
-                                    return state.email.invalid
-                                        ? 'Invalid Email'
-                                        : null;
-                                  },
-                                  obscureText: true,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  child: LoginWithAccountButton(authCredentialHelper: _authCredentialHelper),
                                 ),
                               ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: LoginWithAccountButton(
-                                  authCredentialHelper: _authCredentialHelper),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ],
-              ),
-              bottomNavigationBar: Row(children: [
-                Expanded(
-                    child: Container(
-                        height: 60,
-                        child: FlatButton(
-                            onPressed: isRegisterButtonEnabled(state) ? _onFormSubmitted : null,
-                            color: primaryButtonColor,
-                            child: Text(
-                              "Register",
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 16),
-                            ))))
-              ]));
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
         },
       ),
     );

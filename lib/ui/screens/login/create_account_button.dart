@@ -2,7 +2,6 @@ import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/ui/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class CreateAccountButton extends StatelessWidget {
   final AuthCredentialHelper _authCredentialHelper;
 
@@ -22,7 +21,10 @@ class CreateAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      child: Text('Create an Account'),
+      child: Text(
+        'Create an Account',
+        style: TextStyle(color: Colors.white),
+      ),
       onPressed: () => _navigate(context),
     );
   }

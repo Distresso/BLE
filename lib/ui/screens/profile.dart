@@ -1,4 +1,3 @@
-
 import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/constants/colors.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
@@ -72,13 +71,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: cardColor,
         title: Text(
-          'My Profile',
+          'Profile',
           style: TextStyle(
             fontSize: 28,
             color: Colors.white,
           ),
         ),
-        actions: <Widget>[IconButton(icon: Icon(Icons.person), onPressed: _logOut), Text('Sign Out')],
+        actions: <Widget>[
+          GestureDetector(
+            onTap: _logOut,
+            child: Row(
+              children: [
+                Icon(Icons.person),
+                Center(child: Text('Sign Out')),
+              ],
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
       ),
       body: BlocListener<ProfileCubit, ProfileState>(
         listener: (context, state) {
@@ -98,47 +108,131 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               );
             } else if (state is ProfileLoaded) {
-              return Container(
-                child: ListView(
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextInput(
-                          controller: _nameController,
-                          fieldIcon: Icon(Icons.title),
-                          hintText: 'First Name',
-                        ),
-                        TextInput(
-                          controller: _surnameController,
-                          fieldIcon: Icon(Icons.last_page),
-                          hintText: 'Last Name',
-                        ),
-                        TextInput(controller: _ageController, fieldIcon: Icon(Icons.hourglass_empty), hintText: 'Age'),
-                        TextInput(
-                          controller: _numberController,
-                          fieldIcon: Icon(Icons.phone),
-                          hintText: 'Contact Number',
-                        ),
-                        TextInput(
-                          controller: _heightController,
-                          fieldIcon: Icon(Icons.vertical_align_top),
-                          hintText: 'Height in cm',
-                        ),
-                        TextInput(
-                          controller: _genderController,
-                          fieldIcon: Icon(Icons.wc),
-                          hintText: 'Gender',
-                        ),
-                        TextInput(controller: _weightController, fieldIcon: Icon(Icons.confirmation_number), hintText: 'Weight in kg'),
-                        FlatButton(onPressed: () => _updateProfile(), child: Text('Update User')),
-                      ],
-                    )
-                  ],
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  child: ListView(
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                labelText: 'Name',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _surnameController,
+                              decoration: InputDecoration(
+                                labelText: 'Surname',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _ageController,
+                              decoration: InputDecoration(
+                                labelText: 'Age',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _numberController,
+                              decoration: InputDecoration(
+                                labelText: 'Number',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _heightController,
+                              decoration: InputDecoration(
+                                labelText: 'Height',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _genderController,
+                              decoration: InputDecoration(
+                                labelText: 'Gender',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Theme(
+                            data: ThemeData(primarySwatch: swatchWhite),
+                            child: TextField(
+                              style: TextStyle(color: Colors.white),
+                              controller: _weightController,
+                              decoration: InputDecoration(
+                                labelText: 'Weight',
+                                contentPadding: const EdgeInsets.all(20.0),
+                                labelStyle: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: RaisedButton(
+                                    onPressed: () => _updateProfile(),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20),
+                                      child: Text(
+                                        'Update User',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    color: secondaryButtonColor,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             }
-            return LoadingIndicator();
+            return Center(child: LoadingIndicator());
           },
         ),
       ),

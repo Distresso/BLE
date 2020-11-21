@@ -25,13 +25,11 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                 SizedBox(width: 15,)
               ],
               backgroundColor: cardColor,
-              title: Center(
-                child: Text(
-                  "Wristband Stats",
-                  style: TextStyle(
-                    fontSize: 22,
-                    color: Colors.white,
-                  ),
+              title: Text(
+                "Heart Rate",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Colors.white,
                 ),
               )),
           body: Container(

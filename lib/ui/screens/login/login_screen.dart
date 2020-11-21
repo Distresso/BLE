@@ -14,41 +14,13 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        body: MultiBlocProvider(
-          providers: [
-            BlocProvider<RegisterCubit>(create: (context) => RegisterCubit(authCredentialHelper: _authCredentialHelper)),
-            BlocProvider<LoginCubit>(create: (context) => LoginCubit(authCredentialHelper: _authCredentialHelper)),
-          ],
-          child: Container(color: backgroundColor, child: LoginForm(authCredentialHelper: _authCredentialHelper)),
-        ),
-        bottomNavigationBar:  Row(
-          children: [
-            Expanded(
-              child: Container(
-                height: 60,
-                child: RaisedButton(
-                  onPressed: () {},
-                  color: secondaryButtonColor,
-                  child: Text(
-                    "Sign in with Google",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                height: 60,
-                color: primaryButtonColor,
-                child:  CreateAccountButton(
-                    authCredentialHelper: _authCredentialHelper),
-              ),
-            ),
-          ],
-        ),
+    return Scaffold(
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider<RegisterCubit>(create: (context) => RegisterCubit(authCredentialHelper: _authCredentialHelper)),
+          BlocProvider<LoginCubit>(create: (context) => LoginCubit(authCredentialHelper: _authCredentialHelper)),
+        ],
+        child: LoginForm(authCredentialHelper: _authCredentialHelper),
       ),
     );
   }
