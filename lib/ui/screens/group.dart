@@ -1,6 +1,9 @@
+import 'package:distressoble/Model/GroupModel.dart';
+import 'package:distressoble/Model/UserModel.dart';
+import 'package:distressoble/qubit/group_cubit/group_cubit.dart';
 import 'package:distressoble/qubit/location_cubit/location_cubit.dart';
-import 'package:distressoble/services/google_maps_service.dart';
-import 'package:distressoble/services/location_service.dart';
+import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
+import 'package:distressoble/ui/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,6 +15,9 @@ class GroupScreen extends StatefulWidget {
 }
 
 class _GroupScreenState extends State<GroupScreen> {
+  ProfileCubit _profileCubit;
+  GroupCubit _groupCubit;
+  Group _group;
   GoogleMapController _mapController;
   bool _mapError = false;
   Set<Marker> _markers = {};
@@ -19,8 +25,27 @@ class _GroupScreenState extends State<GroupScreen> {
   BitmapDescriptor _userIcon;
   BitmapDescriptor _alertIcon;
   LatLng _lastLocation;
-  //LatLng _dest;
   DateTime _lastUpdated;
+  List<User> users;
+  String _dropdownValue;
+  List<DropdownMenuItem<String>> _menuItems;
+
+
+
+  _getGroupUsers() async{
+    _groupCubit.loadGroup(user: _profileCubit.state.mainProfileState.user);
+    _group = _groupCubit.state.mainGroupState.group;
+  }
+
+  _populateMenuItems()async{
+    List<String> names = [];
+    await _profileCubit.loadProfile();
+    _group != null ?
+        _group.users.forEach((user) => names.add('${user.name} ${user.surname}')):
+        names.add('${_profileCubit.state.mainProfileState.user.name} ${_profileCubit.state.mainProfileState.user.surname}');
+    _menuItems = names.map<DropdownMenuItem<String>>((String value) => DropdownMenuItem<String>(value: value, child: Text(value),)).toList();
+    _dropdownValue = names.first;
+  }
 
   bool get shouldClearMap {
     return false;
@@ -52,45 +77,16 @@ class _GroupScreenState extends State<GroupScreen> {
 
     _markers.clear();
 
-    // if (responseServiceAction != null && responseServiceAction.movementHistory != null && responseServiceAction.movementHistory.length > 0) {
-    //   _dest = LatLng(
-    //     responseServiceAction.movementHistory.last.lat,
-    //     responseServiceAction.movementHistory.last.long,
-    //   );
-    // } else {
-    //   _updateCameraPosition(_lastLocation);
-    //   return;
-    // }
 
     _addUserLocationMarker();
-    //_setDestinationMarker();
 
-    //_zoomToBounds();
-    //_sendRouteRequest();
   }
 
   _setMapListeners() async {
-    // if () {
     _updateMap();
-    // }
-
-    // widget?.responseServiceActionStream?.listen((event) {
-    //   _responseServiceAction = event;
-    //   _updateMap(event);
   }
 
-//  _sendRouteRequest() async {
-//    String route = await GoogleMapsServices().getRouteCoordinates(_lastLocation, _dest);
-//    if (route == null || route == '') return;
-//
-//    _polyLines = LocationService().createRoute(route);
-//    setState(() {});
-//  }
 
-  setCustomMapPin() async {
-    // _alertIcon = await GoogleMapsServices().bitmapDescriptorFromSvgAsset(context, 'assets/svg/alert.svg');
-    // _userIcon = await GoogleMapsServices().bitmapDescriptorFromSvgAsset(context, 'assets/svg/bottom_nav.svg');
-  }
 
   _addUserLocationMarker() {
     _markers.add(
@@ -104,16 +100,6 @@ class _GroupScreenState extends State<GroupScreen> {
     setState(() {});
   }
 
-//  _setDestinationMarker() {
-//    _markers.add(
-//      Marker(
-//        markerId: MarkerId('2'),
-//        position: _dest,
-//        infoWindow: InfoWindow(title: 'Destination', snippet: "go here"),
-//        icon: _alertIcon,
-//      ),
-//    );
-//  }
 
   _onMapCreated(GoogleMapController controller) {
     _addUserLocationMarker();
@@ -121,31 +107,6 @@ class _GroupScreenState extends State<GroupScreen> {
     _setMapListeners();
   }
 
-//  _zoomToBounds() {
-//    LatLngBounds bound;
-//    if (_dest.latitude > _lastLocation.latitude && _dest.longitude > _lastLocation.longitude) {
-//      bound = LatLngBounds(southwest: _lastLocation, northeast: _dest);
-//    } else if (_dest.longitude > _lastLocation.longitude) {
-//      bound = LatLngBounds(southwest: LatLng(_dest.latitude, _lastLocation.longitude), northeast: LatLng(_lastLocation.latitude, _dest.longitude));
-//    } else if (_dest.latitude > _lastLocation.latitude) {
-//      bound = LatLngBounds(southwest: LatLng(_lastLocation.latitude, _dest.longitude), northeast: LatLng(_dest.latitude, _lastLocation.longitude));
-//    } else {
-//      bound = LatLngBounds(southwest: _dest, northeast: _lastLocation);
-//    }
-//
-//    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 100);
-//    _mapController?.animateCamera(u2)?.then((void v) {
-//      _check(u2, _mapController);
-//    });
-//  }
-
-  _check(CameraUpdate u, GoogleMapController c) async {
-    c.animateCamera(u);
-    _mapController.animateCamera(u);
-    LatLngBounds l1 = await c.getVisibleRegion();
-    LatLngBounds l2 = await c.getVisibleRegion();
-    if (l1.southwest.latitude == -90 || l2.southwest.latitude == -90) _check(u, c);
-  }
 
   _map(LatLng position) {
     return Scaffold(
@@ -159,6 +120,48 @@ class _GroupScreenState extends State<GroupScreen> {
             myLocationButtonEnabled: false,
             mapToolbarEnabled: false,
             polylines: _polyLines,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Container(
+                height: _menuItems == null ? 73 : null,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.black,
+                child: _menuItems == null ? LoadingIndicator() : Padding(
+                  padding: EdgeInsets.only(top: 20, bottom: 8, left: 12, right: 12),
+                  child: DropdownButton<String>(
+                    value: _dropdownValue,
+                    elevation: 16,
+                    underline: Container(height: 2, color: Colors.red,),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    items: _menuItems,
+                    dropdownColor: Colors.black,
+                    isExpanded: true,
+                    onChanged: (String value){
+                      setState(() {
+                        _dropdownValue = value;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              Offstage(
+                offstage: _menuItems == null,
+                child: Padding(
+                  padding: EdgeInsets.only(right: 12),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: RaisedButton(
+                      elevation: 16,
+                      color: Colors.black,
+                      child: Center(child: Text('Manage Group', style: TextStyle(color: Colors.white, fontSize: 14),),),
+                      onPressed: () => null,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           Offstage(
             offstage: !_mapError,
@@ -178,7 +181,7 @@ class _GroupScreenState extends State<GroupScreen> {
               ),
             ),
           ),
-          
+
         ],
       ),
     );
@@ -187,8 +190,11 @@ class _GroupScreenState extends State<GroupScreen> {
   @override
   void initState() {
     super.initState();
-    setCustomMapPin();
     BlocProvider.of<LocationCubit>(context).locationStarted();
+    _profileCubit = BlocProvider.of<ProfileCubit>(context);
+    _groupCubit = BlocProvider.of<GroupCubit>(context);
+    _getGroupUsers();
+    _populateMenuItems();
   }
 
   @override
@@ -224,7 +230,9 @@ class _GroupScreenState extends State<GroupScreen> {
           },
         ),
       ],
-      child: _lastLocation != null ? _map(_lastLocation) : GestureDetector(onTap: () => setState(() {})),
+      child: Scaffold(
+        body: _lastLocation != null ? _map(_lastLocation) : GestureDetector(onTap: () => setState(() {})),
+      )
     );
   }
 }

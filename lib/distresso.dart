@@ -1,4 +1,5 @@
 import 'package:distresso_user_package/distresso_user_package.dart';
+import 'package:distressoble/qubit/group_cubit/group_cubit.dart';
 import 'package:distressoble/qubit/location_cubit/location_cubit.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
 import 'package:distressoble/store/firebase_user_repository.dart';
@@ -44,6 +45,7 @@ class Distresso extends StatelessWidget {
                     create: (context) => LocationCubit(),
                   ),
                   BlocProvider<ProfileCubit>(create: (context) => ProfileCubit(user: _appUserProfileRepository)),
+                  BlocProvider<GroupCubit>(create: (context) => GroupCubit(),)
                 ],
                 child: MaterialApp(
                   theme: ThemeData(primaryColor: Colors.red),

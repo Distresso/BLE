@@ -5,7 +5,7 @@ class FirebaseGroupRepository{
   CollectionReference groupCollection = FirebaseFirestore.instance.collection('Group');
 
   Future<Group> getUserGroup({User appUser}){
-    return groupCollection.doc(appUser.uid).get().then((snapshot) {
+    return groupCollection.doc(appUser.groupId).get().then((snapshot) {
       if (snapshot.data() != null) {
         return Group.fromJson(snapshot.data());
       }

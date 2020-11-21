@@ -13,7 +13,7 @@ class GroupCubit extends Cubit<GroupState> {
   Future<Group> loadGroup({User user})async{
     emit(GroupLoading(state.mainGroupState));
     try{
-      Group group = await groupRepository.getUserGroup(appUser: user);
+      Group group = await groupRepository.getUserGroup(appUser: user) ?? Group(memberCount: 0, users: List<User>());
       emit(GroupLoaded(state.mainGroupState.copyWith(group: group)));
     }catch(error){
       emit(GroupError(state.mainGroupState));
