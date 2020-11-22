@@ -1,6 +1,7 @@
 import 'package:distresso_user_package/distresso_user_package.dart';
 import 'package:distressoble/constants/colors.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
+import 'package:distressoble/ui/widgets/custom_button.dart';
 import 'package:distressoble/ui/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -200,31 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(vertical: 20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(20),
-                                  child: RaisedButton(
-                                    onPressed: () => _updateProfile(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(20),
-                                      child: Text(
-                                        'Update User',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                    color: secondaryButtonColor,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          CustomButton(text: 'Update User',onTap: () => _updateProfile(),),
                         ],
                       ),
                     ],

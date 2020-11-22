@@ -30,7 +30,7 @@ class _NavbarState extends State<Navbar> {
     UserStatsScreen(), //user stats
     ProfileScreen(),
     GroupScreen(),
-    BluetoothTempScreen(), // Bluetooth Screen
+    BluetoothScreen(), // Bluetooth Screen
   ];
 
   Widget _flare(MenuItem item) {
