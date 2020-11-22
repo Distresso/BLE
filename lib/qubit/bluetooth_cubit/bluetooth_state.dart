@@ -1,7 +1,7 @@
 part of 'bluetooth_cubit.dart';
 
 class MainBluetoothAppState extends Equatable {
-  final String message;
+  final Uint8List message;
   final BluetoothConnection bluetoothConnection;
   final BluetoothDevice bluetoothDevice;
 
@@ -11,7 +11,7 @@ class MainBluetoothAppState extends Equatable {
   List<Object> get props => [message];
 
   MainBluetoothAppState copyWith({
-    String message,
+    Uint8List message,
     BluetoothConnection bluetoothConnection,
     BluetoothDevice bluetoothDevice,
   }) {
