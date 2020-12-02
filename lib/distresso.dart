@@ -1,4 +1,5 @@
 import 'package:distresso_user_package/distresso_user_package.dart';
+import 'package:distressoble/qubit/bluetooth_cubit/bluetooth_cubit.dart';
 import 'package:distressoble/qubit/group_cubit/group_cubit.dart';
 import 'package:distressoble/qubit/location_cubit/location_cubit.dart';
 import 'package:distressoble/qubit/profile_cubit/profile_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:distressoble/ui/screens/group_management.dart';
 import 'package:distressoble/ui/screens/login/login_screen.dart';
 import 'package:distressoble/ui/screens/maps_test.dart';
 import 'package:distressoble/ui/screens/splash_screen.dart';
+import 'package:distressoble/ui/widgets/Select_bluetooth_Device.dart';
 import 'package:distressoble/ui/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,7 @@ import 'ui/screens/profile.dart';
 class Distresso extends StatelessWidget {
   static AuthCredentialHelper _authCredentialHelper;
   static AppUserProfileRepository _appUserProfileRepository = AppUserProfileRepository();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,7 +49,12 @@ class Distresso extends StatelessWidget {
                     create: (context) => LocationCubit(),
                   ),
                   BlocProvider<ProfileCubit>(create: (context) => ProfileCubit(user: _appUserProfileRepository)),
-                  BlocProvider<GroupCubit>(create: (context) => GroupCubit(),)
+                  BlocProvider<GroupCubit>(
+                    create: (context) => GroupCubit(),
+                  ),
+                  BlocProvider<BluetoothCubit>(
+                    create: (context) => BluetoothCubit(),
+                  ),
                 ],
                 child: MaterialApp(
                   theme: ThemeData(primaryColor: Colors.red),
@@ -56,6 +64,7 @@ class Distresso extends StatelessWidget {
                     HOME: (context) => Navbar(),
                     GROUP: (context) => MapScreen(),
                     GROUP_MANAGE: (context) => GroupManagementScreen(),
+                    SELECT_DEVICE: (context) => SelectBluetoothDevice(),
                   },
                 ),
               );
