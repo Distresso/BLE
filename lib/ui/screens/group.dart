@@ -191,8 +191,10 @@ class _GroupScreenState extends State<GroupScreen> {
                     dropdownColor: Colors.black,
                     isExpanded: true,
                     onChanged: (String value){
-                      setState(() {
+                      User user = _users.firstWhere((user) => '${user.name} ${user.surname}' == value);
+                      setState(() async {
                         _dropdownValue = value;
+                        await _updateCameraPosition(LatLng(user.lat, user.lon));
                       });
                     },
                   ),
@@ -254,7 +256,7 @@ class _GroupScreenState extends State<GroupScreen> {
             Expanded(child: Text('${user?.name ?? 'Name'} ${user?.surname ?? 'Surname'}', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),)),
             Expanded(child: Row(
               children: [
-                Expanded(flex: 2,child: Text('Heartrate: ${user?.currVital != null  || user?.currVital != 0? '${user.currVital.toString()} BPM' : 'N/A'}', style: TextStyle(color: Colors.white, fontSize: 12)),),
+                Expanded(flex: 2,child: Text('Heartrate: ${user?.currVital != null  && user?.currVital != 0? '${user.currVital.toString()} BPM' : 'N/A'}', style: TextStyle(color: Colors.white, fontSize: 12)),),
                 Expanded(flex: 3,child: Text('Last Updated: ${user?.lastUpdated != null ? user.lastUpdated.toString() : 'N/A'}', style: TextStyle(color: Colors.white, fontSize: 12)),)
               ],
             ))
