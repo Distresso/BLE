@@ -27,22 +27,53 @@ class _GroupScreenState extends State<GroupScreen> {
   BitmapDescriptor _alertIcon;
   LatLng _lastLocation;
   DateTime _lastUpdated;
-  List<User> users;
   String _dropdownValue;
   List<DropdownMenuItem<String>> _menuItems;
+  List<User> _users;
 
 
 
   _getGroupUsers() async{
-    _groupCubit.loadGroup(user: _profileCubit.state.mainProfileState.user);
-    _group = _groupCubit.state.mainGroupState.group;
+    await _profileCubit.loadProfile();
+    await _groupCubit.loadGroup(user: _profileCubit.state.mainProfileState.user);
+    List<String> ids = [_profileCubit.state.mainProfileState.user.uid];
+    _group = _groupCubit.state.mainGroupState.group ?? Group(users: ids);
+    _users = await _profileCubit.getGroupUsers(_group.users);
+    print('');
+    await _populateMenuItems();
+    setState(() {
+
+    });
+  }
+
+  _populateMarkers(){
+    try{
+      _users.forEach((user) {
+        if(user.uid != _profileCubit.state.mainProfileState.user.uid){
+          LatLng latlng = LatLng(user.lat, user.lon);
+          final Marker marker = Marker(
+            markerId: MarkerId(user.uid),
+            position: latlng,
+            icon: BitmapDescriptor.defaultMarker,
+            draggable: false,
+            zIndex: 1,
+          );
+          setState(() {
+            _markers.add(marker);
+          });
+        }
+      });
+
+    }catch(error){
+      print(error.toString());
+    }
   }
 
   _populateMenuItems()async{
     List<String> names = [];
     await _profileCubit.loadProfile();
-    _group != null ?
-        _group.users.forEach((user) => names.add('${user.name} ${user.surname}')):
+    _users != null ?
+        _users.forEach((user) => names.add('${user.name} ${user.surname}')):
         names.add('${_profileCubit.state.mainProfileState.user.name} ${_profileCubit.state.mainProfileState.user.surname}');
     _menuItems = names.map<DropdownMenuItem<String>>((String value) => DropdownMenuItem<String>(value: value, child: Text(value),)).toList();
     _dropdownValue = names.first;
@@ -123,6 +154,7 @@ class _GroupScreenState extends State<GroupScreen> {
             polylines: _polyLines,
           ),
           Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
@@ -196,6 +228,7 @@ class _GroupScreenState extends State<GroupScreen> {
     _groupCubit = BlocProvider.of<GroupCubit>(context);
     _getGroupUsers();
     _populateMenuItems();
+    _populateMarkers();
   }
 
   @override

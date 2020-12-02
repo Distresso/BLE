@@ -25,11 +25,24 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  Future<List<User>> getGroupUsers(List<String> ids)async{
+    try{
+      return await _user.getGroupUsers(ids);
+    }catch(error){
+      print(error.toString());
+    }
+  }
+
+  Future<User> getProfileByEmail(String email)async{
+    return await _user.getFriendProfile(email);
+  }
+
   updateProfile(User user) async {
     emit(ProfileLoading(state.mainProfileState.copyWith(message: 'Loading...')));
     try {
       await _user.updateUserProfile(userProfile: user, authProviderUserDetails: state.mainProfileState.authProviderUserDetails);
-      emit(ProfileLoaded(state.mainProfileState.copyWith(user: user)));
+      print('');
+      await loadProfile();
     } catch (error) {
       emit(ProfileError(state.mainProfileState.copyWith(message: error.toString())));
     }

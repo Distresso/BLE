@@ -9,7 +9,7 @@ part 'GroupModel.g.dart';
 class Group {
   final String groupName;
   final String groupNameId;
-  final List<User> users;
+  final List<String> users;
   final int memberCount;
 
   Group({this.groupName, this.groupNameId, this.users,this.memberCount});
@@ -21,7 +21,7 @@ class Group {
   Group copyWith({
     String groupName,
     String groupNameId,
-    final List<User> users,
+    final List<String> users,
     int memberCount,
   }) {
     if ((groupName == null || identical(groupName, this.groupName)) && (users == null || identical(users, this.users)) && (groupNameId == null || identical(groupNameId, this.groupNameId)) && (memberCount == null || identical(memberCount, this.memberCount))) {

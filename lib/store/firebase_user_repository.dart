@@ -25,8 +25,60 @@ class AppUserProfileRepository {
     return User();
   }
 
+  Future<User> getUser(String id) async{
+    User user;
+    await userProfileCollection.doc(id).get().then((snapshot) {
+      print(snapshot.data());
+      user = User.fromJson(snapshot.data());
+    }
+    );
+    return user;
+  }
+
+  Future<List<User>> getGroupUsers(List<String> ids) async{
+    List<User> users = List<User>();
+    for(var id in ids){
+      users.add(await getUser(id));
+    }
+       //ids.forEach((element) async {users.add(await getUser(element));});
+    return users;
+  }
+
+  Future<List<User>> getUserByEmail() async{
+    List<User> users = List<User>();
+//    await userProfileCollection.snapshots().forEach((element) async {
+//      element.docs.forEach((snap) {
+//        print(snap.data());
+//        users.add(User.fromJson(snap.data()));
+//        return users;
+//      });
+//
+//    });
+    QuerySnapshot querySnapshot = await userProfileCollection.getDocuments();
+    querySnapshot.documents.forEach((snap) {
+      print(snap.data());
+      users.add(User.fromJson(snap.data()));
+    });
+    return users;
+  }
+
+
+
+
+  Future<User> getFriendProfile(String email) async{
+    List<User> users = await getUserByEmail();
+    User user;
+    users.forEach((element) {
+      if(element.email == email){
+        user = element;
+      }
+    });
+    print(user);
+    return user;
+  }
+
   Future<void> updateUserProfile({User userProfile, AuthProviderUserDetails authProviderUserDetails}) async {
-    await userProfileCollection.doc(authProviderUserDetails.id).set(userProfile.copyWith(id: authProviderUserDetails.id).toJson(), SetOptions(merge: true));
+    await userProfileCollection.doc(userProfile.uid).set(userProfile.copyWith(id: userProfile.uid).toJson(), SetOptions(merge: true));
   }
 
   Future<void> updateProfile(String key, dynamic data) async {
