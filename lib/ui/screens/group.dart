@@ -30,6 +30,8 @@ class _GroupScreenState extends State<GroupScreen> {
   String _dropdownValue;
   List<DropdownMenuItem<String>> _menuItems;
   List<User> _users;
+  User _selectedUser;
+  bool _showDetails = false;
 
 
 
@@ -46,22 +48,27 @@ class _GroupScreenState extends State<GroupScreen> {
     });
   }
 
-  _populateMarkers(){
+  _populateMarkers()async{
     try{
+      await _getGroupUsers();
       _users.forEach((user) {
-        if(user.uid != _profileCubit.state.mainProfileState.user.uid){
           LatLng latlng = LatLng(user.lat, user.lon);
           final Marker marker = Marker(
             markerId: MarkerId(user.uid),
             position: latlng,
             icon: BitmapDescriptor.defaultMarker,
             draggable: false,
+            onTap: (){
+              setState(() {
+                _selectedUser = user;
+                _showDetails = !_showDetails;
+              });
+            },
             zIndex: 1,
           );
           setState(() {
             _markers.add(marker);
           });
-        }
       });
 
     }catch(error){
@@ -89,8 +96,8 @@ class _GroupScreenState extends State<GroupScreen> {
         CameraUpdate.newLatLng(position),
       );
 
-      _markers.clear();
-      _addUserLocationMarker();
+
+      await _addUserLocationMarker();
       //_setDestinationMarker();
     }
   }
@@ -99,44 +106,47 @@ class _GroupScreenState extends State<GroupScreen> {
     if (shouldClearMap) {
       _polyLines = {};
       _markers.clear();
+      await _populateMarkers();
       _updateCameraPosition(_lastLocation);
-      _addUserLocationMarker();
+      await _profileCubit.updateProfile(_profileCubit.state.mainProfileState.user.copyWith(lat: _lastLocation.latitude, lon: _lastLocation.longitude, lastUpdated: _lastUpdated));
+     await _addUserLocationMarker();
       return;
     }
 
     if (_lastUpdated != null && DateTime.now().difference(_lastUpdated).inSeconds < 5) return;
     _lastUpdated = DateTime.now();
-
+    await _profileCubit.updateProfile(_profileCubit.state.mainProfileState.user.copyWith(lat: _lastLocation.latitude, lon: _lastLocation.longitude, lastUpdated: _lastUpdated));
     _markers.clear();
 
 
-    _addUserLocationMarker();
+   await _addUserLocationMarker();
 
   }
 
   _setMapListeners() async {
-    _updateMap();
+    await _updateMap();
   }
 
 
 
-  _addUserLocationMarker() {
-    _markers.add(
-      Marker(
-        markerId: MarkerId('1'),
-        icon: _userIcon,
-        position: _lastLocation,
-        anchor: Offset(0.5, 0.64),
-      ),
-    );
+  _addUserLocationMarker()async {
+    await _populateMarkers();
+//    _markers.add(
+//      Marker(
+//        markerId: MarkerId('1'),
+//        icon: _userIcon,
+      //  position: _lastLocation,
+//        anchor: Offset(0.5, 0.64),
+//      ),
+//    );
     setState(() {});
   }
 
 
-  _onMapCreated(GoogleMapController controller) {
-    _addUserLocationMarker();
+  _onMapCreated(GoogleMapController controller) async{
+    await _populateMarkers();
     _mapController = controller;
-    _setMapListeners();
+   await _setMapListeners();
   }
 
 
@@ -152,6 +162,15 @@ class _GroupScreenState extends State<GroupScreen> {
             myLocationButtonEnabled: false,
             mapToolbarEnabled: false,
             polylines: _polyLines,
+          ),
+          Column(
+            children: [
+              Spacer(),
+              Offstage(
+                offstage: !_showDetails,
+                child: _detailSheet(_selectedUser),
+              ),
+            ],
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -216,6 +235,31 @@ class _GroupScreenState extends State<GroupScreen> {
           ),
 
         ],
+      ),
+    );
+  }
+
+  _detailSheet(User user){
+    return Container(
+      alignment: Alignment.bottomLeft,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12))
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Column(
+          children: [
+            Expanded(child: Text('${user?.name ?? 'Name'} ${user?.surname ?? 'Surname'}', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),)),
+            Expanded(child: Row(
+              children: [
+                Expanded(flex: 2,child: Text('Heartrate: ${user?.currVital != null  || user?.currVital != 0? '${user.currVital.toString()} BPM' : 'N/A'}', style: TextStyle(color: Colors.white, fontSize: 12)),),
+                Expanded(flex: 3,child: Text('Last Updated: ${user?.lastUpdated != null ? user.lastUpdated.toString() : 'N/A'}', style: TextStyle(color: Colors.white, fontSize: 12)),)
+              ],
+            ))
+          ],
+        ),
       ),
     );
   }

@@ -154,7 +154,7 @@ class _RegisterFormState extends State<RegisterForm> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(20.0),
                                       child: Text(
-                                        'Login',
+                                        'Register',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     ),
